@@ -1,6 +1,8 @@
-<h1>Editing Print</h1>
+<section class="section">
+	<div class="container">
+		<h1 class="title has-text-centered">Editing Print</h1>
+		<%= render 'form', print: @print %>
+	</div>
+</section>
 
-<%= render 'form', print: @print %>
 
-<%= link_to 'Show', @print %> |
-<%= link_to 'Back', prints_path %>
