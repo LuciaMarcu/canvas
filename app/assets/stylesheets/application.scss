@@ -13,11 +13,24 @@
  *= require_tree .
  *= require_self
  */
- 
+ 	$pink: #ea4c89;
+	$pink-invert: #fff;
+
+	$primary: $pink;
+	$primary-invert: $pink-invert;
+	$link: $primary;
+	$link-hover: darken($primary, 20%);
+
  
  
  
  @import "bulma";
+
+ html, body {
+	min-height: 100vh;
+	background-color: #f4f4f4;
+}
+
 
  #drop_zone {
 	position: relative;

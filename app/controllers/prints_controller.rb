@@ -1,18 +1,20 @@
 class PrintsController < ApplicationController
-  before_action :set_print, only: %i[ show edit update destroy ]
+  before_action :set_print, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:edit, :update, :destroy]
 
   # GET /prints or /prints.json
   def index
-    @prints = Print.all
+    @prints = Print.all.order('created_at DESC')
   end
 
   # GET /prints/1 or /prints/1.json
   def show
+    
   end
 
   # GET /prints/new
   def new
-    @print = Print.new
+    @print = current_user.prints.build
   end
 
   # GET /prints/1/edit
@@ -21,7 +23,7 @@ class PrintsController < ApplicationController
 
   # POST /prints or /prints.json
   def create
-    @print = Print.new(print_params)
+    @print = current_user.prints.build(print_params)
 
     respond_to do |format|
       if @print.save
@@ -64,6 +66,6 @@ class PrintsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def print_params
-      params.require(:print).permit(:title, :description, :user_id)
+      params.require(:print).permit(:title, :description, :user_print)
     end
 end

@@ -1,15 +1,73 @@
+<div class="section">
+	<div class="container">
+		<h1 class="title is-3"><%= @print.title %></h1>
+		<div class="columns">
+			<div class="column is-8">
+				<span class="by has-text-grey-light">by</span>
+				<div class="user-thumb">
+          <%= gravatar_image_tag(@print.user.email.gsub('spam', 'mdeering'), alt: @print.user.name, 
+                                 gravatar: { size: 20 }); %>
+				</div>
+				<div class="user-name has-text-weight-bold"><%= @print.user.name %></div>
+				<div class="print-time"><span class="has-text-grey-light">posted</span>
+        <span class="has-text-weight-semibold">
+					<%= verbose_date(@print.created_at) %>
+				</span></div>
+			</div>	
+		</div>
 
+		<div class="columns">
+			<div class="column is-8">
+				<div class="print-container">
+					<div class="print-full">
+						 <%= image_tag @print.user_print_url unless @print.user_print.blank? %>
+					</div>
 
-<p>
-  <strong>Title:</strong>
-  <%= @print.title %>
-</p>
+					<% if user_signed_in? && (current_user.id == @print.user_id) %>		
+						<div class="buttons has-addons">
+							<%= link_to 'Edit', edit_print_path(@print), class: "button" %>
+              <%= link_to 'Delete', print_path, class: "button", method: :delete, 
+                  data: { confirm: 'Are you sure you want to delete this print?'} %>
+						</div>
+					<% end %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @print.description %>
-</p>
+					<div class="content">
+						<%= @print.description %>
+					</div>
 
+					<section class="comments">
+						<h2 class="subtitle is-5">Comments</h2>							
+						<hr />
+						<% if user_signed_in? %>
+							<div class="comment-form">
+								<h3 class="subtitle is-3">Leave a reply</h3>								
+							</div>
+						<% else %>
+							<div class="content"><%= link_to 'Sign in', new_user_session_path %> to leave a comment.</div>
+						<% end %>
+					</section>
 
-<%= link_to 'Edit', edit_print_path(@print) %> |
-<%= link_to 'Back', prints_path %>
+				</div>
+			</div>
+			<div class="column is-3 is-offset-1">
+				<div class="nav panel show-print-analytics">
+					<div class="panel-block views data">
+						<span class="icon"><i class="fa fa-eye"></i></span>
+						Views
+					</div>
+					<div class="panel-block comments data">
+						<span class="icon"><i class="fa fa-comment"></i></span>
+						Comments
+					</div>
+					<div class="panel-block likes data">					
+               
+                  <span class="icon"><i class="fa fa-heart has-text-primary"></i></span>
+                  <span class="vote_count">Likes</span>
+              
+              
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

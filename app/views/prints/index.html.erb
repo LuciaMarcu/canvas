@@ -1,31 +1,52 @@
 
-
-<h1>Prints</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
+<section class="section">
+  <div class="prints">
     <% @prints.each do |print| %>
-      <tr>
-        <td><%= print.title %></td>
-        <td><%= print.description %></td>
-        <td><%= print.user_id %></td>
-        <td><%= link_to 'Show', print %></td>
-        <td><%= link_to 'Edit', edit_print_path(print) %></td>
-        <td><%= link_to 'Destroy', print, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <div class="print-grid-item">
+        <div class="print-wrapper">  
+
+          <%= link_to print, class: "print" do %>
+            <%= image_tag(print.user_print_url) %>
+            <div class="print-data">
+              <h3 class="print-title"><%= print.title %></h3>
+              <div class="print-description"><%= truncate(print.description, length: 60) %></div>
+              <div class="print-time">
+                <%= time_ago_in_words(print.created_at) %>
+              </div>
+            </div>
+          <% end %>
+
+          <nav class="level print-analytics">
+            <div class="level-left"></div>
+              <div class="level-right">
+                <div class="level-item views data">
+                  <%= link_to print do %>
+                    <span class="icon"><i class="fa fa-eye"></i></span>
+                    0
+                  <% end %>
+                </div>
+                <div class="level-item comments data">
+                  <%= link_to print do %>
+                    <span class="icon"><i class="fa fa-comment"></i></span>
+                    0
+                  <% end %>
+                </div>
+                <div class="level-item likes">
+                <%= link_to '#' do %>
+                  <span class="icon"><i class="fa fa-heart has-text-primary"></i></span>
+                  <span class="vote_count">0</span>
+                <% end %>
+                </div>
+            </div>
+          </nav>
+        </div>
+        <div class="user-data">
+          <div class="user-thumb">
+            <%= gravatar_image_tag(print.user.email.gsub('spam', 'mdeering'), alt: print.user.name, gravatar: { size: 20 }); %>
+          </div>
+          <div class="user-name"><%= print.user.name %></div>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Print', new_print_path %>
+  </div>
+</section>
