@@ -1,3 +1,4 @@
+<%= render 'hero' %>
 
 <section class="section">
   <div class="prints">
@@ -32,10 +33,24 @@
                   <% end %>
                 </div>
                 <div class="level-item likes">
-                <%= link_to '#' do %>
-                  <span class="icon"><i class="fa fa-heart has-text-primary"></i></span>
-                  <span class="vote_count">0</span>
-                <% end %>
+                <% if user_signed_in? %>                
+                  <% if current_user.liked? print %>
+                    <%= link_to unlike_print_path(print), method: :put, class: "unlike_print" do %>
+                      <span class="icon"><i class="fa fa-heart has-text-primary"></i></span>
+                      <span class="vote_count"><%= print.get_likes.size %></span>
+                    <% end %>
+                  <% else %>
+                    <%= link_to like_print_path(print), method: :put, class: "like_print" do %>
+                      <span class="icon"><i class="fa fa-heart"></i></span>
+                      <span class="vote_count"><%= print.get_likes.size %></span>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <%= link_to like_print_path(print), method: :put, class: "like_print" do %>
+                    <span class="icon"><i class="fa fa-heart"></i></span>
+                    <span class="vote_count"><%= print.get_likes.size %></span>
+                  <% end %>
+              <% end %>
                 </div>
             </div>
           </nav>

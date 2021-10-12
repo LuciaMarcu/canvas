@@ -62,9 +62,24 @@
 						<%= pluralize(@print.comments.count, 'Comment')%>
 					</div>
 					<div class="panel-block likes data">					
-               
-                  <span class="icon"><i class="fa fa-heart has-text-primary"></i></span>
-                  <span class="vote_count">Likes</span>
+						<% if user_signed_in? %>
+							<% if current_user.liked? @print %>
+								<%= link_to unlike_print_path(@print), method: :put, class: "unlike_print" do %>
+									<span class="icon"><i class="fa fa-heart has-text-primary"></i></span>
+									<span class="vote_count"><%= pluralize(@print.get_likes.size, 'Like') %></span>
+								<% end %>
+						    <% else %>
+								<%= link_to like_print_path(@print), method: :put, class: "like_print" do %>
+									<span class="icon"><i class="fa fa-heart"></i></span>
+									<span class="vote_count"><%= pluralize(@print.get_likes.size, 'Like') %></span>
+								<% end %>
+              				<% end %>
+            			<% else %>
+							<%= link_to like_print_path(@print), method: :put, class: "like_print" do %>
+								<span class="icon"><i class="fa fa-heart"></i></span>
+								<span class="vote_count"><%= pluralize(@print.get_likes.size, 'Like') %></span>
+							<% end %>
+            			<% end %>                
               
               
 					</div>

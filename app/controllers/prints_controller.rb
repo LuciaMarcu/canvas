@@ -1,6 +1,6 @@
 class PrintsController < ApplicationController
-  before_action :set_print, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:edit, :update, :destroy]
+  before_action :set_print, only: [:show, :edit, :update, :destroy, :like, :unlike]
+  before_action :authenticate_user!, only: [:edit, :update, :destroy, :like, :unlike]
   impressionist actions: [:show], unique: [:impressionable_type, :impressionable_id, :session_hash]
 
   # GET /prints or /prints.json
@@ -47,6 +47,22 @@ class PrintsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @print.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def like
+    @print.liked_by current_user
+    respond_to do |format|
+      format.html { redirect_back fallback_location: root_path }
+      format.json { render layout:false }
+    end
+  end
+
+  def unlike
+    @print.unliked_by current_user
+    respond_to do |format|
+      format.html { redirect_back fallback_location: root_path }
+      format.json { render layout:false }
     end
   end
 
