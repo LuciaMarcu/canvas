@@ -12,6 +12,7 @@
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 	grid-gap: 1rem;
+	
 	@media only screen and (min-width: 1600px) {
 		grid-template-columns: repeat(6, 1fr);
 	}
@@ -33,7 +34,7 @@
 	position: relative;
 	display: block;
 	color: #333 !important;
-
+	
 	.print-data {
 		display: none;
 		position: absolute;
@@ -73,6 +74,7 @@
 	img {
 		border-radius: 50%;
 	}
+	padding-right: 30px;
 }
 
 .by,
@@ -144,4 +146,8 @@
 
 .print-full {
 	text-align: center;
+}
+
+img {
+	border-radius: 5px;
 }
