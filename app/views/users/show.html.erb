@@ -1,20 +1,63 @@
 <div class="section">
     <div class="container">
         <div class="columns is-centered">
-            <div class="user-thumb">
+            <div class="user-thumb-profile">
                 <%= gravatar_image_tag(@user.email.gsub('spam', 'mdeering'), alt: @user.name, 
                                         gravatar: { size: 80 }); %>
             </div>
             <h1 class="title is-3"><%= @user.name %></h1>
         </div>        
-        <div class="tabs">
-            <ul>
-                <li class="is-active"><a>Prints</a></li>
-                <li><a>Liked prints</a></li>
-                <li><a>Collections</a></li>
-                <li><a>About</a></li>
-            </ul>
-        </div>
+        <hr />
 
+        <div class="prints">
+            <% @prints.each do |print| %>
+                <div class="print-grid-item">
+                    <div class="print-wrapper">
+                        <%= link_to print, class: "print" do %>
+                            <%= image_tag(print.user_print_url) %>
+                            <div class="print-data">
+                                <h3 class="print-title"><%= print.title %></h3>
+                                <div class="print-description"><%= truncate(print.description, length: 60) %></div>
+                                <div class="print-time">
+                                    <%= time_ago_in_words(print.created_at) %>
+                                </div>
+                            </div>
+                        <% end %>
+                        <nav class="level print-analytics">
+                            <div class="level-left"></div>
+                            <div class="level-right">
+                                <div class="level-item views data">
+                                    <%= link_to print do %>
+                                        <span class="icon"><i class="fa fa-eye"></i></span>
+                                        <%= print.impressionist_count %>
+                                    <% end %>
+                                </div>
+                                <div class="level-item comments data">
+                                    <%= link_to print do %>
+                                        <span class="icon"><i class="fa fa-comment"></i></span>
+                                        <%= print.comments.count %>
+                                    <% end %>
+                                </div>
+                        <div class="level-item likes">                                    
+                            <% if current_user.liked? print %>
+                                <%= link_to unlike_print_path(print), method: :put, class: "unlike_print" do %>
+                                    <span class="icon"><i class="fa fa-heart has-text-primary"></i></span>
+                                    <span class="vote_count"><%= print.get_likes.size %></span>
+                                <% end %>
+                            <% else %>
+                                <%= link_to like_print_path(print), method: :put, class: "like_print" do %>
+                                    <span class="icon"><i class="fa fa-heart"></i></span>
+                                    <span class="vote_count"><%= print.get_likes.size %></span>
+                                <% end %>
+                            <% end %>                        
+                        </div>
+                    </div>
+                </nav>
+                </div>        
+            </div>
+            <% end %>
+        </div>
+            
+       
     </div>
 </div>
