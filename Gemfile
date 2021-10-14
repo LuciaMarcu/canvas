@@ -40,6 +40,8 @@ gem 'impressionist', '~> 2.0'
 gem 'jquery-rails', '~> 4.4'
 gem 'gravatar_image_tag', '~> 1.2'
 gem 'acts_as_votable', '~> 0.13.1'
+gem 'figaro', '~> 1.2'
+gem 'fog-aws', '~> 3.12'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
